@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RA Scheduler Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+    <div class="dashboard">
+        <div class="template-sidebar">
+            <h2><i class="fas fa-file-alt"></i> Templates</h2>
+            <div id="templateList"></div>
+        </div>
+
+        <div class="form-container">
+            <div class="poc-search-container">
+                <input type="text" id="pocSearch" placeholder="🔍 Search POC by name or position...">
+                <div id="pocResults"></div>
+            </div>
+            
+            <div class="selected-poc-card" id="selectedPOC" style="display: none;">
+                <h3>Selected POC:</h3>
+                <div id="pocDetails"></div>
+            </div>
+
+            <div id="dynamicForm"></div>
+            
+            <button class="generate-btn" onclick="generateRA()">
+                <i class="fas fa-magic"></i> Generate RA
+            </button>
+            <div class="output-preview" id="outputPreview"></div>
+        </div>
+    </div>
+
+    <script src="pocList.js"></script>
+    <script src="templates.js"></script>
+    <script src="tempConfigs.js"></script>
+    <script>
+        let selectedTemplate = null;
+        let selectedPOC = null;
+
+        // Initialize application
+        function initApp() {
+            populateTemplates();
+            setupPOCSearch();
+        }
+
+        function populateTemplates() {
+            const templateList = document.getElementById('templateList');
+            Object.keys(templates).forEach(key => {
+                const card = document.createElement('div');
+                card.className = 'template-card';
+                card.innerHTML = formatTemplateName(key);
+                card.addEventListener('click', () => selectTemplate(key));
+                templateList.appendChild(card);
+            });
+        }
+
+        function setupPOCSearch() {
+            const searchInput = document.getElementById('pocSearch');
+            searchInput.addEventListener('input', debounce(handlePOCSearch, 300));
+        }
+
+        function handlePOCSearch(e) {
+            const term = e.target.value.toLowerCase();
+            const results = pocList.filter(poc => 
+                `${poc.firstName} ${poc.lastName}`.toLowerCase().includes(term) ||
+                poc.position.toLowerCase().includes(term)
+            );
+
+            const resultsContainer = document.getElementById('pocResults');
+            resultsContainer.innerHTML = '';
+            
+            results.forEach(poc => {
+                const div = document.createElement('div');
+                div.className = 'poc-result';
+                div.innerHTML = `
+                    <strong>${poc.firstName} ${poc.lastName}</strong>
+                    <div>${poc.position} @ ${poc.organization}</div>
+                `;
+                div.addEventListener('click', () => selectPOC(poc));
+                resultsContainer.appendChild(div);
+            });
+
+            resultsContainer.style.display = results.length ? 'block' : 'none';
+        }
+
+        function selectPOC(poc) {
+    selectedPOC = poc;
+    document.getElementById('pocResults').style.display = 'none';
+    document.getElementById('selectedPOC').style.display = 'block';
+
+    const detailsDiv = document.getElementById('pocDetails');
+    detailsDiv.innerHTML = '';
+
+    // Dynamically add only available fields
+    const fields = [
+        { label: 'Name', value: `${poc.firstName} ${poc.lastName}` },
+        { label: 'Position', value: poc.position },
+        { label: 'Organization', value: poc.organization },
+        { label: 'Phone', value: poc.phone },
+        { label: 'Email', value: poc.email },
+        { label: 'Cell', value: poc.cell },
+        { label: 'Fax', value: poc.fax },
+        { label: 'Address', value: poc.address }
+    ];
+
+    fields.forEach(field => {
+        if (field.value && field.value !== 'N/A') {
+            const fieldElement = document.createElement('p');
+            fieldElement.innerHTML = `<strong>${field.label}:</strong> ${field.value}`;
+            detailsDiv.appendChild(fieldElement);
+        }
+    });
+}
+
+        function selectTemplate(templateKey) {
+            selectedTemplate = templateKey;
+            document.querySelectorAll('.template-card').forEach(card => 
+                card.classList.remove('active'));
+            event.target.classList.add('active');
+            createFormFields(templateKey);
+        }
+
+        function createFormFields(templateKey) {
+    const dynamicForm = document.getElementById('dynamicForm');
+    dynamicForm.innerHTML = '';
+
+    // Remove the hardcoded templateConfigs object and use the external one
+    if (templateConfigs[templateKey]) {
+        dynamicForm.innerHTML = templateConfigs[templateKey];
+    } else {
+        // Keep the existing fallback logic
+        const placeholders = getPlaceholders(templates[templateKey]);
+        placeholders.forEach(placeholder => {
+            if (['firstName', 'lastName', 'phone', 'email', 'organization', 'position'].includes(placeholder)) return;
+            
+            const group = document.createElement('div');
+            group.className = 'input-group';
+            const defaultValue = placeholder.toLowerCase() === 'time' ? '9:00 am' : '';
+            group.innerHTML = `
+                <label>${formatLabel(placeholder)}</label>
+                <input type="text" 
+                    id="${placeholder}" 
+                    placeholder="Enter ${formatLabel(placeholder)}"
+                    value="${defaultValue}">
+            `;
+            dynamicForm.appendChild(group);
+        });
+    }
+}
+
+function generateRA() {
+    if (!selectedTemplate || !selectedPOC) {
+        alert('Please select a template and POC first!');
+        return;
+    }
+
+    let content = templates[selectedTemplate];
+    const placeholders = getPlaceholders(content);
+
+    placeholders.forEach(placeholder => {
+        let value = '';
+        switch (placeholder) {
+            // POC fields
+            case 'firstName':
+            case 'lastName':
+            case 'phone':
+            case 'email':
+            case 'organization':
+            case 'position':
+                value = selectedPOC[placeholder] || '';
+                break;
+
+            // Special fields
+            case 'clientName':
+            case 'clientPhone':
+            case 'fromAddress':
+            case 'toAddress':
+            case 'requirement':
+            case 'date':
+                const input = document.getElementById(placeholder);
+                value = input ? input.value : '';
+                break;
+
+            // Time field
+            case 'time':
+                const timeInput = document.getElementById('time');
+                value = timeInput ? timeInput.value : '9:00 am';
+                break;
+
+            default:
+                value = '';
+        }
+
+        // Clean replacement with fallback
+        if (value) {
+            content = content.replaceAll(`[${placeholder}]`, value);
+        } else {
+            content = content.replaceAll(`[${placeholder}]`, '');
+        }
+    });
+
+    // Additional cleanup
+    content = content.replace(/\s*\|\s*\|\s*/g, ' | ')
+                    .replace(/\s*\|\s*$/g, '')
+                    .replace(/^\s*\|\s*/g, '')
+                    .replace(/\s*\|\s*(?=\|)/g, '');
+
+    document.getElementById('outputPreview').innerHTML = content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+}
+
+        // Helper functions remain the same
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        function getPlaceholders(template) {
+            return [...new Set(template.match(/\[(.*?)\]/g).map(p => p.slice(1, -1)))];
+        }
+
+        function formatLabel(text) {
+            return text.replace(/([A-Z])/g, ' $1').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        function formatTemplateName(key) {
+            return key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+        }
+
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
