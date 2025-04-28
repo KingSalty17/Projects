@@ -12,6 +12,9 @@
     <div class="dashboard">
         <div class="template-sidebar">
             <h2><i class="fas fa-file-alt"></i> Templates</h2>
+            <div class="template-search-container">
+                <input type="text" id="templateSearch" placeholder="🔍 Search templates...">
+            </div>
             <div id="templateList"></div>
         </div>
 
@@ -22,7 +25,6 @@
             </div>
             
             <div class="selected-poc-card" id="selectedPOC" style="display: none;">
-                <h3>Selected POC:</h3>
                 <div id="pocDetails"></div>
             </div>
 
@@ -31,7 +33,14 @@
             <button class="generate-btn" onclick="generateRA()">
                 <i class="fas fa-magic"></i> Generate RA
             </button>
-            <div class="output-preview" id="outputPreview"></div>
+
+            <div class="output-preview-container">                
+                <button class="clear-btn" onclick="clearOutput()">Clear</button>
+                <button class="copy-btn" onclick="copyOutput()">Copy</button>
+                <div class="output-preview" id="outputPreview"></div>
+            </div>
+                
+
         </div>
     </div>
 
@@ -46,18 +55,111 @@
         function initApp() {
             populateTemplates();
             setupPOCSearch();
+            setupTemplateSearch();
         }
 
         function populateTemplates() {
-            const templateList = document.getElementById('templateList');
-            Object.keys(templates).forEach(key => {
-                const card = document.createElement('div');
-                card.className = 'template-card';
-                card.innerHTML = formatTemplateName(key);
-                card.addEventListener('click', () => selectTemplate(key));
-                templateList.appendChild(card);
-            });
+    const templateList = document.getElementById('templateList');
+
+    // Group templates into categories
+    const categorizedTemplates = {
+        "HABC Templates": {
+            haCleanout: "HABC Cleanout",
+            haEviction: "HABC Eviction",
+            haRelocation: "HABC Relocation",            
+            haBoxDelivery: "HABC Box Delivery",
+            haTruckUnload: "HABC Truck Unload"
+        },
+        "Housing Commission Template": {
+            hocRelocation: "HOC Relocation"
+        },
+        "School Templates": {
+            schoolMoving: "School Moving",
+            schoolPickupDelivery: "School Pickup & Delivery"
+        },
+        "Private Sector Templates": {
+            privateRelocation: "Private Relocation",
+            chamberRelocation: "Chamber Relocation"
+        },
+        "State's Attorney Templates": {
+            saRelocation: "SA Relocation",
+            saFurnitureRemoval: "SA Furniture Removal"
+        },
+        "University Template": {
+            universityRelocation: "University Relocation"
+        },
+        
+        "Aging Services Template": {
+            agingRelocation: "Aging Relocation"
+        },
+        
+        "Non-Profit Templates": {
+            grassrootsRelocation: "Grassroots Relocation"
+        },
+               
+        "Project Management Template": {
+            jacobsRelocation: "Jacobs Relocation"
         }
+    };
+
+    // Create collapsible sections for each category
+    Object.keys(categorizedTemplates).forEach(category => {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'template-category';
+
+        const categoryHeader = document.createElement('h3');
+        categoryHeader.textContent = category;
+        categoryHeader.className = 'category-header';
+        categoryHeader.addEventListener('click', () => {
+            const templatesDiv = categoryDiv.querySelector('.templates');
+            templatesDiv.style.display = templatesDiv.style.display === 'none' ? 'block' : 'none';
+        });
+
+        const templatesDiv = document.createElement('div');
+        templatesDiv.className = 'templates';
+        templatesDiv.style.display = 'none';
+
+        // Add templates to the category
+        const templates = categorizedTemplates[category];
+        Object.keys(templates).forEach(key => {
+            const card = document.createElement('div');
+            card.className = 'template-card';
+            card.textContent = templates[key];
+            card.addEventListener('click', () => selectTemplate(key));
+            templatesDiv.appendChild(card);
+        });
+
+        categoryDiv.appendChild(categoryHeader);
+        categoryDiv.appendChild(templatesDiv);
+        templateList.appendChild(categoryDiv);
+    });
+}
+
+function setupTemplateSearch() {
+    const searchInput = document.getElementById('templateSearch');
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const categories = document.querySelectorAll('.template-category');
+
+        categories.forEach(category => {
+            const templates = category.querySelectorAll('.template-card');
+            let hasVisibleTemplates = false;
+
+            templates.forEach(template => {
+                const templateText = template.textContent.toLowerCase();
+                if (templateText.includes(searchTerm)) {
+                    template.style.display = 'block';
+                    hasVisibleTemplates = true;
+                } else {
+                    template.style.display = 'none';
+                }
+            });
+
+            // Show or hide the category based on whether it has visible templates
+            category.style.display = hasVisibleTemplates ? 'block' : 'none';
+        });
+    });
+}
 
         function setupPOCSearch() {
             const searchInput = document.getElementById('pocSearch');
@@ -98,14 +200,8 @@
 
     // Dynamically add only available fields
     const fields = [
-        { label: 'Name', value: `${poc.firstName} ${poc.lastName}` },
-        { label: 'Position', value: poc.position },
-        { label: 'Organization', value: poc.organization },
-        { label: 'Phone', value: poc.phone },
-        { label: 'Email', value: poc.email },
-        { label: 'Cell', value: poc.cell },
-        { label: 'Fax', value: poc.fax },
-        { label: 'Address', value: poc.address }
+        { label: 'POC', value: `${poc.firstName} ${poc.lastName} | ${poc.position} | ${poc.organization} | ${poc.address} | ${poc.phone} |  ${poc.email} ` }
+
     ];
 
     fields.forEach(field => {
@@ -152,6 +248,67 @@
         });
     }
 }
+
+
+function updateCopyButtonVisibility() {
+    const outputPreview = document.getElementById('outputPreview');
+    const copyButton = document.querySelector('.copy-btn');
+
+    // Show the button only if there is text in the outputPreview
+    if (outputPreview.innerHTML.trim()) {
+        copyButton.style.display = 'inline-block';
+    } else {
+        copyButton.style.display = 'none';
+    }
+}
+
+function copyOutput() {
+    const outputPreview = document.getElementById('outputPreview');
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = outputPreview.innerHTML;
+
+    // Extract plain text, including bold text
+    const textToCopy = tempElement.innerText;
+
+    if (textToCopy) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            alert('Output copied to clipboard!');
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+    } else {
+        alert('No content to copy!');
+    }
+}
+
+function clearOutput() {
+    const outputPreview = document.getElementById('outputPreview');
+    const copyButton = document.querySelector('.copy-btn');
+    const clearButton = document.querySelector('.clear-btn');
+
+    // Clear the content of outputPreview
+    outputPreview.innerHTML = '';
+
+    // Hide the buttons
+    copyButton.style.display = 'none';
+    clearButton.style.display = 'none';
+}
+
+function updateCopyButtonVisibility() {
+    const outputPreview = document.getElementById('outputPreview');
+    const copyButton = document.querySelector('.copy-btn');
+    const clearButton = document.querySelector('.clear-btn');
+
+    // Show the buttons only if there is text in the outputPreview
+    if (outputPreview.innerHTML.trim()) {
+        copyButton.style.display = 'inline-block';
+        clearButton.style.display = 'inline-block';
+    } else {
+        copyButton.style.display = 'none';
+        clearButton.style.display = 'none';
+    }
+}
+
 
 function generateRA() {
     if (!selectedTemplate || !selectedPOC) {
@@ -211,7 +368,13 @@ function generateRA() {
                     .replace(/\s*\|\s*(?=\|)/g, '');
 
     document.getElementById('outputPreview').innerHTML = content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+
+    updateCopyButtonVisibility();
+    updateCopyButtonVisibility();
 }
+
+
+
 
         // Helper functions remain the same
         function debounce(func, wait) {
