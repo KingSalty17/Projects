@@ -321,36 +321,19 @@ function generateRA() {
 
     placeholders.forEach(placeholder => {
         let value = '';
-        switch (placeholder) {
-            // POC fields
-            case 'firstName':
-            case 'lastName':
-            case 'phone':
-            case 'email':
-            case 'organization':
-            case 'position':
-                value = selectedPOC[placeholder] || '';
-                break;
 
-            // Special fields
-            case 'clientName':
-            case 'clientPhone':
-            case 'fromAddress':
-            case 'toAddress':
-            case 'requirement':
-            case 'date':
-                const input = document.getElementById(placeholder);
-                value = input ? input.value : '';
-                break;
+        // Check if the placeholder should come from the form input
+        const input = document.getElementById(placeholder);
+        if (input) {
+            value = input.value; // Prioritize form input values
+        } else if (selectedPOC[placeholder]) {
+            // Use POC values only if no form input exists for the placeholder
+            value = selectedPOC[placeholder];
+        }
 
-            // Time field
-            case 'time':
-                const timeInput = document.getElementById('time');
-                value = timeInput ? timeInput.value : '9:00 am';
-                break;
-
-            default:
-                value = '';
+        // Special handling for time field
+        if (placeholder === 'time' && !value) {
+            value = '9:00 am';
         }
 
         // Clean replacement with fallback
@@ -363,16 +346,15 @@ function generateRA() {
 
     // Additional cleanup
     content = content.replace(/\s*\|\s*\|\s*/g, ' | ')
-                    .replace(/\s*\|\s*$/g, '')
-                    .replace(/^\s*\|\s*/g, '')
-                    .replace(/\s*\|\s*(?=\|)/g, '');
+                     .replace(/\s*\|\s*$/g, '')
+                     .replace(/^\s*\|\s*/g, '')
+                     .replace(/\s*\|\s*(?=\|)/g, '');
 
     document.getElementById('outputPreview').innerHTML = content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
 
-    updateCopyButtonVisibility();
+    // Show the copy and clear buttons
     updateCopyButtonVisibility();
 }
-
 
 
 
