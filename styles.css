@@ -360,3 +360,67 @@ body::before {
     background-color: red;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
+
+/* Styling for client-row */
+.client-row {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between elements */
+    margin-bottom: 15px;
+}
+
+.client-row label {
+    font-weight: bold;
+    color: #555;
+    margin-right: 5px;
+}
+
+.client-row input {
+    flex: 1; /* Make inputs take equal space */
+    padding: 10px;
+    border: 2px solid var(--input-border);
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: all var(--transition-timing);
+}
+
+.client-row input:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+
+/* Styling for DATE and TIME on the same line */
+.date-time-row {
+    display: flex;
+    gap: 15px; /* Space between DATE and TIME */
+    margin-bottom: 15px;
+}
+
+.date-time-row .input-group {
+    flex: 1; /* Make DATE and TIME inputs take equal space */
+}
+
+.date-time-row label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.date-time-row input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid var(--input-border);
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: all var(--transition-timing);
+}
+
+.date-time-row input:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
