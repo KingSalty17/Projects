@@ -159,6 +159,7 @@ body::before {
     border: 1px solid #e0e0e0;
     line-height: 1.8;
     font-size: 0.95em;
+    
 }
 
 /* POC Search */
@@ -230,4 +231,132 @@ body::before {
 .generate-btn.loading {
     opacity: 0.8;
     pointer-events: none;
+}
+
+/* Template Category */
+.template-category {
+    margin-bottom: 1rem;
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Category Header */
+.category-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color var(--transition-timing);
+}
+
+.category-header:hover {
+    background-color: var(--hover-color);
+}
+
+/* Templates Container */
+.templates {
+    padding: 0.5rem 1rem;
+    background-color: var(--background-color);
+    display: none; /* Initially hidden */
+}
+
+/* Template Card */
+.template-card {
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0;
+    background-color: #fff;
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--transition-timing);
+    font-size: 0.95rem;
+    color: var(--text-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.template-card:hover {
+    background-color: var(--hover-color);
+    color: white;
+    border-color: var(--hover-color);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.template-card.active {
+    background-color: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Template Search */
+.template-search-container {
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+#templateSearch {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--input-border);
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: all var(--transition-timing);
+}
+
+#templateSearch:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+
+
+.output-preview-container {
+    position: relative;
+    margin-top: 25px;
+}
+
+.copy-btn {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all var(--transition-timing);
+}
+
+.copy-btn:hover {
+    background-color: blue;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.clear-btn {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 10px;
+    right: 70px; /* Adjusted to avoid overlapping with the Copy button */
+    background-color: darkred;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all var(--transition-timing);
+}
+
+.clear-btn:hover {
+    background-color: red;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
