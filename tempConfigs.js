@@ -1,18 +1,74 @@
 const templateConfigs = {
+    // School Templates
+    schoolMoving: `
+        <div class="form-header-row">
+            <h2 class="header-title">School Moving Services</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
+        </div>
+        <div class="input-group">
+            <label>LOCATION:</label>
+            <input type="text" id="location" class="full-width" placeholder="Location Address">
+        </div>
+        <div class="input-group">
+            <label>REQUIREMENT:</label>
+            <textarea id="description" placeholder="Description"></textarea>
+        </div>
+    `,
+
+    schoolPickupDelivery: `
+        <div class="form-header-row">
+            <h2 class="header-title">School Pickup & Deliveries</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
+        </div>
+        <div class="input-group">
+            <label>FROM:</label>
+            <input type="text" id="fromAddress" class="full-width" placeholder="From Location">
+        </div>
+        <div class="input-group">
+            <label>STOP DETAILS:</label>
+            <textarea id="specialInstructions" placeholder="Stop Details with Addresses"></textarea>
+        </div>
+        <div class="input-group">
+            <label>REQUIREMENT:</label>
+            <textarea id="description" placeholder="Description"></textarea>
+        </div>
+    `,
+
+    // State's Attorney Templates
     saRelocation: `
         <div class="form-header-row">
-            <div class="header-title">BCSAO – Relocation</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
+            <h2 class="header-title">BCSAO – Relocation</h2>
+           <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
         </div>
+        <label><strong>CLIENT:</strong></label>
         <div class="client-row">
-            <label>CLIENT:</label>
             <input type="text" id="clientName" placeholder="Name">
             <span class="pipe">|</span>
             <input type="text" id="clientPhone" placeholder="Phone">
@@ -31,39 +87,54 @@ const templateConfigs = {
         </div>
     `,
 
-    schoolMoving: `
+    saFurnitureRemoval: `
         <div class="form-header-row">
-            <div class="header-title">School Moving Services</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
+            <h2 class="header-title">BCSAO – Furniture Removal</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
+        </div>
+        <label><strong>CLIENT:</strong></label>
+        <div class="client-row">
+            <input type="text" id="clientName" placeholder="Name">
+            <span class="pipe">|</span>
+            <input type="text" id="clientPhone" placeholder="Phone">
         </div>
         <div class="input-group">
-            <label>LOCATION:</label>
-            <input type="text" id="location" class="full-width" placeholder="School address">
+            <label>FROM:</label>
+            <input type="text" id="fromAddress" class="full-width" placeholder="Source location">
         </div>
         <div class="input-group">
-            <label>REQUIREMENT:</label>
-            <textarea id="description" placeholder="Moving details"></textarea>
+            <label>TO:</label>
+            <input type="text" id="toAddress" class="full-width" placeholder="Destination">
+        </div>
+        <div class="input-group">
+            <label>ITEMS:</label>
+            <textarea id="itemList" placeholder="List of items to discard"></textarea>
         </div>
     `,
 
+    // HABC Templates
     haCleanout: `
         <div class="form-header-row">
-            <div class="header-title">Cleanout Details</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
+            <h2 class="header-title">Cleanout Details</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
         </div>
         <div class="input-group">
             <label>COMPLEX:</label>
@@ -75,110 +146,122 @@ const templateConfigs = {
         </div>
         <div class="input-group">
             <label>SPECIAL NOTES:</label>
-            <textarea id="specialInstructions"></textarea>
-        </div>
-    `,
-    schoolPickupDelivery: `
-        <div class="form-header-row">
-            <div class="header-title">[Organization] – Pickup & Deliveries</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
-        </div>
-        <div class="input-group">
-            <label>FROM:</label>
-            <input type="text" id="fromLocation" class="full-width" placeholder="Pickup location">
-        </div>
-        <div class="input-group">
-            <label>STOP DETAILS:</label>
-            <textarea id="stopDetails" placeholder="Addresses and stop information"></textarea>
-        </div>
-        <div class="input-group">
-            <label>REQUIREMENT:</label>
-            <textarea id="description" placeholder="Delivery details"></textarea>
+            <textarea id="specialInstructions" placeholder="Special instructions"></textarea>
         </div>
     `,
 
-    saFurnitureRemoval: `
+    haEviction: `
         <div class="form-header-row">
-            <div class="header-title">BCSAO – Furniture Removal</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
-        </div>
-        <div class="client-row">
-            <label>CLIENT:</label>
-            <input type="text" id="clientName" placeholder="Name">
-            <span class="pipe">|</span>
-            <input type="text" id="clientPhone" placeholder="Phone">
+            <h2 class="header-title">HABC – Eviction</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
         </div>
         <div class="input-group">
+            <label>EVICTION ADDRESS:</label>
+            <input type="text" id="location" class="full-width" placeholder="Eviction address">
+        </div>
+        <div class="input-group">
+            <label>UNIT DETAILS:</label>
+            <input type="text" id="unitDetails" class="full-width" placeholder="Unit information">
+        </div>
+        <div class="input-group">
+            <label>SPECIAL INSTRUCTIONS:</label>
+            <textarea id="specialInstructions" placeholder="Additional details"></textarea>
+        </div>
+    `,
+
+    haRelocation: `
+        <div class="form-header-row">
+            <h2 class="header-title">HABC – Relocation</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
+        </div>
+        
+        <label><strong>RESIDENT:</strong></label>
+        <div class="client-row">
+            <input type="text" id="name" placeholder="Name">
+            <span class="pipe">|</span>
+            <input type="text" id="phone" placeholder="Phone">
+        </div>
+
+        <div class="input-group">
             <label>FROM:</label>
-            <input type="text" id="fromLocation" class="full-width" placeholder="Source location">
+            <input type="text" id="fromAddress" class="full-width" placeholder="Current address">
         </div>
         <div class="input-group">
             <label>TO:</label>
-            <input type="text" id="destination" class="full-width" placeholder="Destination">
+            <input type="text" id="toAddress" class="full-width" placeholder="New address">
         </div>
-        <div class="input-group">
-            <label>ITEMS:</label>
-            <textarea id="itemList" placeholder="List of items to discard"></textarea>
-        </div>
+        <div class="input-group" style="display: none;">
+    <label>REMEMBER:</label>
+    <textarea id="specialInstructions" placeholder="Additional details">Please take photos of everything in each room so that all belongings are shown to avoid someone saying something was left or stolen. Make sure you check all the TVs are working before moving and once again when they’re at the new place.
+    </textarea>
+</div>
     `,
 
     haBoxDelivery: `
         <div class="form-header-row">
-            <div class="header-title">HABC - Box Delivery</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
+            <h2 class="header-title">HABC - Box Delivery</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
         </div>
         <div class="input-group">
             <label>NUMBER OF BOXES:</label>
             <input type="text" id="number" placeholder="Quantity">
         </div>
+        <label><strong>CLIENT:</strong></label>
         <div class="client-row">
-            <label>RESIDENT:</label>
-            <input type="text" id="name" placeholder="Name">
+            <input type="text" id="clientName" placeholder="Name">
             <span class="pipe">|</span>
-            <input type="text" id="phone" placeholder="Phone">
+            <input type="text" id="clientPhone" placeholder="Phone">
         </div>
         <div class="input-group">
             <label>DELIVERY ADDRESS:</label>
-            <input type="text" id="deliveryAddress" class="full-width" placeholder="Full address">
+            <input type="text" id="location" class="full-width" placeholder="Full address">
         </div>
     `,
 
     haTruckUnload: `
         <div class="form-header-row">
-            <div class="header-title">HABC - Trucks Unloaded</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
+            <h2 class="header-title">HABC - Trucks Unloaded</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
         </div>
         <div class="input-group">
             <label>WAREHOUSE ADDRESS:</label>
-            <input type="text" id="warehouseAddress" class="full-width" placeholder="Location">
+            <input type="text" id="location" class="full-width" placeholder="Location">
         </div>
         <div class="input-group">
             <label>SERVICE DESCRIPTION:</label>
@@ -190,29 +273,33 @@ const templateConfigs = {
         </div>
     `,
 
+    // Aging Services Template
     agingRelocation: `
         <div class="form-header-row">
-            <div class="header-title">Dept of Aging & Disabilities - Relocation Services</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
+            <h2 class="header-title">Dept of Aging & Disabilities - Relocation Services</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
         </div>
+        
+        <label><strong>RESIDENT:</strong></label>
         <div class="client-row">
-            <label>RESIDENT:</label>
             <input type="text" id="name" placeholder="Name">
             <span class="pipe">|</span>
-            <input type="text" id="phone" placeholder="Home phone">
-            <span class="pipe">|</span>
-            <input type="text" id="cell" placeholder="Mobile phone">
+            <input type="text" id="phone" placeholder="Phone">
         </div>
+
+
         <div class="input-group">
             <label>LOCATION:</label>
-            <input type="text" id="address" class="full-width" placeholder="Address">
+            <input type="text" id="location" class="full-width" placeholder="Address">
         </div>
         <div class="input-group">
             <label>REQUIREMENT:</label>
@@ -223,20 +310,24 @@ const templateConfigs = {
             <input type="text" id="amount" placeholder="Amount">
         </div>
     `,
+
+    // Private Sector Templates
     privateRelocation: `
         <div class="form-header-row">
-            <div class="header-title">[Company] - Relocation of Furniture</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
+            <h2 class="header-title">Private Relocation</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
         </div>
+        <label><strong>CLIENT:</strong></label>
         <div class="client-row">
-            <label>CLIENT:</label>
             <input type="text" id="clientName" placeholder="Name">
             <span class="pipe">|</span>
             <input type="text" id="clientPhone" placeholder="Phone">
@@ -257,37 +348,25 @@ const templateConfigs = {
             <label>ADDITIONAL STOPS:</label>
             <textarea id="additionalStops" placeholder="Extra requirements/stops"></textarea>
         </div>
-        <div class="poc-section">
-            <div class="input-group">
-                <label>POC FIRST NAME:</label>
-                <input type="text" id="firstName" placeholder="Contact's first name">
-            </div>
-            <div class="input-group">
-                <label>POC LAST NAME:</label>
-                <input type="text" id="lastName" placeholder="Contact's last name">
-            </div>
-            <div class="input-group">
-                <label>POSITION:</label>
-                <input type="text" id="position" placeholder="Contact's position">
-            </div>
-            <div class="input-group">
-                <label>PRICE:</label>
-                <input type="text" id="amount" placeholder="Agreed amount">
-            </div>
+        <div class="input-group">
+            <label>PRICE:</label>
+            <input type="text" id="amount" placeholder="Agreed amount">
         </div>
     `,
 
     chamberRelocation: `
         <div class="form-header-row">
-            <div class="header-title">Relocation – [Organization]</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
+            <h2 class="header-title">Chamber Relocation</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
         </div>
         <div class="input-group">
             <label>PICK UP:</label>
@@ -301,33 +380,22 @@ const templateConfigs = {
             <label>ITEMS:</label>
             <textarea id="itemList" placeholder="Inventory list"></textarea>
         </div>
-        <div class="poc-section">
-            <div class="input-group">
-                <label>POC FIRST NAME:</label>
-                <input type="text" id="firstName" placeholder="Contact's first name">
-            </div>
-            <div class="input-group">
-                <label>POC LAST NAME:</label>
-                <input type="text" id="lastName" placeholder="Contact's last name">
-            </div>
-            <div class="input-group">
-                <label>ORGANIZATION:</label>
-                <input type="text" id="organization" placeholder="Organization name">
-            </div>
-        </div>
     `,
 
+    // Non-Profit Templates
     grassrootsRelocation: `
         <div class="form-header-row">
-            <div class="header-title">[Organization] - Relocation Services</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
+            <h2 class="header-title">Grassroots Relocation</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
         </div>
         <div class="input-group">
             <label>PICK UP:</label>
@@ -335,7 +403,7 @@ const templateConfigs = {
         </div>
         <div class="input-group">
             <label>DROP OFF:</label>
-            <input type="text" id="destination" class="full-width" placeholder="Destination">
+            <input type="text" id="toAddress" class="full-width" placeholder="Destination">
         </div>
         <div class="input-group">
             <label>REQUIREMENTS:</label>
@@ -345,79 +413,62 @@ const templateConfigs = {
             <label>EQUIPMENT:</label>
             <textarea id="needs" placeholder="Needed equipment"></textarea>
         </div>
-        <div class="poc-section">
-            <div class="input-group">
-                <label>POC PHONE:</label>
-                <input type="text" id="phone" placeholder="Office phone">
-            </div>
-            <div class="input-group">
-                <label>POC CELL:</label>
-                <input type="text" id="cell" placeholder="Mobile number">
-            </div>
-            <div class="input-group">
-                <label>POC EMAIL:</label>
-                <input type="email" id="email" placeholder="Email address">
-            </div>
-        </div>
     `,
 
+    // Housing Commission Template
     hocRelocation: `
         <div class="form-header-row">
-            <div class="header-title">HOC – Relocation</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
+            <h2 class="header-title">HOC – Relocation</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
         </div>
+        <label><strong>RESIDENT:</strong></label>
         <div class="client-row">
-            <label>RESIDENT:</label>
+            
             <input type="text" id="name" placeholder="Name">
             <span class="pipe">|</span>
             <input type="text" id="phone" placeholder="Phone">
         </div>
         <div class="input-group">
-            <label>FROM ADDRESS:</label>
+            <label>FROM:</label>
             <input type="text" id="fromAddress" class="full-width" placeholder="Current address">
         </div>
         <div class="input-group">
-            <label>TO ADDRESS:</label>
+            <label>TO:</label>
             <input type="text" id="toAddress" class="full-width" placeholder="New address">
         </div>
         <div class="input-group">
             <label>SPECIAL INSTRUCTIONS:</label>
-            <textarea id="specialInstructions"></textarea>
-        </div>
-        <div class="poc-section">
-            <div class="input-group">
-                <label>POC POSITION:</label>
-                <input type="text" id="position" placeholder="Job title">
-            </div>
-            <div class="input-group">
-                <label>POC ORGANIZATION:</label>
-                <input type="text" id="organization" placeholder="Organization name">
-            </div>
+            <textarea id="specialInstructions" placeholder="Additional details"></textarea>
         </div>
     `,
 
+    // University Template
     universityRelocation: `
         <div class="form-header-row">
-            <div class="header-title">[Organization] – Relocation Services</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
+            <h2 class="header-title">University Relocation</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
         </div>
         <div class="input-group">
             <label>LOCATION:</label>
-            <input type="text" id="address" class="full-width" placeholder="Campus/building address">
+            <input type="text" id="location" class="full-width" placeholder="Campus/building address">
         </div>
         <div class="input-group">
             <label>DESCRIPTION:</label>
@@ -437,17 +488,20 @@ const templateConfigs = {
         </div>
     `,
 
+    // Project Management Template
     jacobsRelocation: `
         <div class="form-header-row">
-            <div class="header-title">[Project] - Moving Services</div>
-            <div class="input-group">
-                <label>DATE:</label>
-                <input type="text" id="date" placeholder="Enter date">
-            </div>
-            <div class="input-group">
-                <label>TIME:</label>
-                <input type="text" id="time" value="9:00 am">
-            </div>
+            <h2 class="header-title">Jacobs Relocation</h2>
+            <div class="date-time-row">
+    <div class="input-group">
+        <label>DATE:</label>
+        <input type="text" id="date" placeholder="Enter date">
+    </div>
+    <div class="input-group">
+        <label>TIME:</label>
+        <input type="text" id="time" value="9:00 am">
+    </div>
+</div>
         </div>
         <div class="input-group">
             <label>PICK UP:</label>
@@ -469,63 +523,5 @@ const templateConfigs = {
             <label>EQUIPMENT:</label>
             <textarea id="needs" placeholder="Machinery/tools needed"></textarea>
         </div>
-    `,
-    haRelocation: `
-    <div class="form-header-row">
-        <div class="header-title">HABC – Relocation</div>
-        <div class="input-group">
-            <label>DATE:</label>
-            <input type="text" id="date" placeholder="Enter date">
-        </div>
-        <div class="input-group">
-            <label>TIME:</label>
-            <input type="text" id="time" value="9:00 am">
-        </div>
-    </div>
-    <div class="client-row">
-        <label>RESIDENT:</label>
-        <input type="text" id="name" placeholder="Name">
-        <span class="pipe">|</span>
-        <input type="text" id="phone" placeholder="Phone">
-    </div>
-    <div class="input-group">
-        <label>FROM:</label>
-        <input type="text" id="fromAddress" class="full-width" placeholder="Current address">
-    </div>
-    <div class="input-group">
-        <label>TO:</label>
-        <input type="text" id="toAddress" class="full-width" placeholder="New address">
-    </div>
-    <div class="input-group">
-        <label>SPECIAL INSTRUCTIONS:</label>
-        <textarea id="specialInstructions" placeholder="Additional details"></textarea>
-    </div>
-`,
-
-haEviction: `
-    <div class="form-header-row">
-        <div class="header-title">HABC – Eviction</div>
-        <div class="input-group">
-            <label>DATE:</label>
-            <input type="text" id="date" placeholder="Enter date">
-        </div>
-        <div class="input-group">
-            <label>TIME:</label>
-            <input type="text" id="time" value="9:00 am">
-        </div>
-    </div>
-    <div class="input-group">
-        <label>EVICTION ADDRESS:</label>
-        <input type="text" id="evictionAddress" class="full-width" placeholder="Eviction address">
-    </div>
-    <div class="input-group">
-        <label>UNIT DETAILS:</label>
-        <input type="text" id="unitDetails" class="full-width" placeholder="Unit information">
-    </div>
-    <div class="input-group">
-        <label>SPECIAL INSTRUCTIONS:</label>
-        <textarea id="specialInstructions" placeholder="Additional details"></textarea>
-    </div>
-`
-    // Add configurations for other templates following the same pattern
+    `
 };
