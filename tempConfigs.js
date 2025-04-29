@@ -4,15 +4,15 @@ const templateConfigs = {
         <div class="form-header-row">
             <h2 class="header-title">School Moving Services</h2>
             <div class="date-time-row">
-    <div class="input-group">
-        <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
-    </div>
-    <div class="input-group">
-        <label>TIME:</label>
-        <input type="text" id="time" value="9:00 am">
-    </div>
-</div>
+                <div class="input-group">
+                    <label>DATE:</label>
+                    <input type="date" id="date" placeholder="Enter date">
+                </div>
+                <div class="input-group">
+                    <label>TIME:</label>
+                    <input type="text" id="time" value="9:00 am">
+                </div>
+            </div>
         </div>
         <div class="input-group">
             <label>LOCATION:</label>
@@ -28,10 +28,10 @@ const templateConfigs = {
         <div class="form-header-row">
             <h2 class="header-title">School Pickup & Deliveries</h2>
             <div class="date-time-row">
-    <div class="input-group">
-        <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
-    </div>
+                <div class="input-group">
+                <label>DATE:</label>
+                <input type="date" id="date" placeholder="Enter date">    
+            </div>
     <div class="input-group">
         <label>TIME:</label>
         <input type="text" id="time" value="9:00 am">
@@ -59,7 +59,7 @@ const templateConfigs = {
            <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
+         <input type="date" id="date" placeholder="Enter date">
     </div>
     <div class="input-group">
         <label>TIME:</label>
@@ -93,8 +93,7 @@ const templateConfigs = {
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
-    </div>
+ <input type="date" id="date" placeholder="Enter date">    </div>
     <div class="input-group">
         <label>TIME:</label>
         <input type="text" id="time" value="9:00 am">
@@ -120,35 +119,71 @@ const templateConfigs = {
             <textarea id="itemList" placeholder="List of items to discard"></textarea>
         </div>
     `,
-
     // HABC Templates
     haCleanout: `
-        <div class="form-header-row">
-            <h2 class="header-title">Cleanout Details</h2>
-            <div class="date-time-row">
-    <div class="input-group">
-        <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
+    <div class="form-header-row">
+        <h2 class="header-title">Cleanout Details</h2>
+        <div class="date-time-row">
+            <div class="input-group">
+                <label>DATE:</label>
+                <input type="date" id="date" placeholder="Enter date">
+            </div>
+            <div class="input-group">
+                <label>TIME:</label>
+                <input type="text" id="time" value="9:00 am">
+            </div>
+        </div>
     </div>
     <div class="input-group">
-        <label>TIME:</label>
-        <input type="text" id="time" value="9:00 am">
+        <label>COMPLEX:</label>
+        <select id="complex">
+            <option value="Cherry Hill Homes">Cherry Hill Homes</option>
+            <option value="Gilmor Homes">Gilmor Homes</option>
+            <option value="Perkins Homes">Perkins Homes</option>
+        </select>
     </div>
-</div>
+    <div id="address-container">
+        <div class="date-time-row address-row" id="address1">
+            <div class="input-group">
+                <label>ADDRESS (1):</label>
+                <input type="text" class="address" placeholder="Enter address">
+            </div>
+            <div class="input-group">
+                <label>BR DETAILS:</label>
+                <input type="text" class="br-details" placeholder="Enter BR details (e.g., 3-br unit)">
+            </div>
         </div>
-        <div class="input-group">
-            <label>COMPLEX:</label>
-            <input type="text" id="complex" placeholder="Complex name">
+        <div class="date-time-row address-row" id="address2" style="display: none;">
+            <div class="input-group">
+                <label>ADDRESS (2):</label>
+                <input type="text" class="address" placeholder="Enter address">
+            </div>
+            <div class="input-group">
+                <label>BR DETAILS:</label>
+                <input type="text" class="br-details" placeholder="Enter BR details (e.g., 3-br unit)">
+            </div>
         </div>
-        <div class="input-group">
-            <label>UNIT DETAILS:</label>
-            <input type="text" id="unitDetails" class="full-width" placeholder="Unit information">
-        </div>
-        <div class="input-group">
-            <label>SPECIAL NOTES:</label>
-            <textarea id="specialInstructions" placeholder="Special instructions"></textarea>
-        </div>
-    `,
+        <!-- Repeat for address3 to address20 -->
+        ${Array.from({ length: 18 }, (_, i) => `
+        <div class="date-time-row address-row" id="address${i + 3}" style="display: none;">
+            <div class="input-group">
+                <label>ADDRESS (${i + 3}):</label>
+                <input type="text" class="address" placeholder="Enter address">
+            </div>
+            <div class="input-group">
+                <label>BR DETAILS:</label>
+                <input type="text" class="br-details" placeholder="Enter BR details (e.g., 3-br unit)">
+            </div>
+        </div>`).join('')}
+    </div>
+    <div class="button-container">
+        <button type="button" id="add-address-btn">Add Another Address</button>
+    </div>
+    <div class="input-group">
+        <label>SPECIAL NOTES:</label>
+        <textarea id="specialInstructions" placeholder="Special instructions">Please stay until all trash is bagged and removed before leaving the site.</textarea>
+    </div>
+`,
 
     haEviction: `
         <div class="form-header-row">
@@ -156,8 +191,7 @@ const templateConfigs = {
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
-    </div>
+ <input type="date" id="date" placeholder="Enter date">    </div>
     <div class="input-group">
         <label>TIME:</label>
         <input type="text" id="time" value="9:00 am">
@@ -184,8 +218,7 @@ const templateConfigs = {
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
-    </div>
+ <input type="date" id="date" placeholder="Enter date">    </div>
     <div class="input-group">
         <label>TIME:</label>
         <input type="text" id="time" value="9:00 am">
@@ -221,8 +254,7 @@ const templateConfigs = {
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
-    </div>
+ <input type="date" id="date" placeholder="Enter date">    </div>
     <div class="input-group">
         <label>TIME:</label>
         <input type="text" id="time" value="9:00 am">
@@ -251,8 +283,7 @@ const templateConfigs = {
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
-    </div>
+ <input type="date" id="date" placeholder="Enter date">    </div>
     <div class="input-group">
         <label>TIME:</label>
         <input type="text" id="time" value="9:00 am">
@@ -280,8 +311,7 @@ const templateConfigs = {
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
-    </div>
+ <input type="date" id="date" placeholder="Enter date">    </div>
     <div class="input-group">
         <label>TIME:</label>
         <input type="text" id="time" value="9:00 am">
@@ -318,8 +348,7 @@ const templateConfigs = {
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
-    </div>
+ <input type="date" id="date" placeholder="Enter date">    </div>
     <div class="input-group">
         <label>TIME:</label>
         <input type="text" id="time" value="9:00 am">
@@ -345,10 +374,6 @@ const templateConfigs = {
             <textarea id="itemList" placeholder="List of furniture/items"></textarea>
         </div>
         <div class="input-group">
-            <label>ADDITIONAL STOPS:</label>
-            <textarea id="additionalStops" placeholder="Extra requirements/stops"></textarea>
-        </div>
-        <div class="input-group">
             <label>PRICE:</label>
             <input type="text" id="amount" placeholder="Agreed amount">
         </div>
@@ -360,8 +385,7 @@ const templateConfigs = {
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
-    </div>
+ <input type="date" id="date" placeholder="Enter date">    </div>
     <div class="input-group">
         <label>TIME:</label>
         <input type="text" id="time" value="9:00 am">
@@ -389,8 +413,7 @@ const templateConfigs = {
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
-    </div>
+ <input type="date" id="date" placeholder="Enter date">    </div>
     <div class="input-group">
         <label>TIME:</label>
         <input type="text" id="time" value="9:00 am">
@@ -422,8 +445,7 @@ const templateConfigs = {
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
-    </div>
+ <input type="date" id="date" placeholder="Enter date">    </div>
     <div class="input-group">
         <label>TIME:</label>
         <input type="text" id="time" value="9:00 am">
@@ -495,8 +517,7 @@ const templateConfigs = {
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
-        <input type="text" id="date" placeholder="Enter date">
-    </div>
+ <input type="date" id="date" placeholder="Enter date">    </div>
     <div class="input-group">
         <label>TIME:</label>
         <input type="text" id="time" value="9:00 am">
@@ -525,3 +546,16 @@ const templateConfigs = {
         </div>
     `
 };
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const addAddressButton = document.getElementById('add-address-btn');
+    if (addAddressButton) {
+        addAddressButton.addEventListener('click', function () {
+            const hiddenAddresses = document.querySelectorAll('.address-row[style*="display: none"]');
+            if (hiddenAddresses.length > 0) {
+                hiddenAddresses[0].style.display = 'flex';
+            }
+        });
+    }
+});
