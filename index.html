@@ -6,8 +6,8 @@
     <title>RA Scheduler Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    
 </head>
+
 <body>
     <div class="dashboard">
         <div class="template-sidebar">
@@ -44,18 +44,22 @@
         </div>
     </div>
 
+    
     <script src="pocList.js"></script>
     <script src="templates.js"></script>
     <script src="tempConfigs.js"></script>
-    <script>
-        let selectedTemplate = null;
-        let selectedPOC = null;
+    <script src="tempHelpers.js"></script>
+    <script src="pocSearch.js"></script>
+   
 
+    <script>
+        
         // Initialize application
         function initApp() {
             populateTemplates();
             setupPOCSearch();
             setupTemplateSearch();
+            initAutocomplete(); 
         }
 
         function populateTemplates() {
@@ -135,91 +139,7 @@
     });
 }
 
-function setupTemplateSearch() {
-    const searchInput = document.getElementById('templateSearch');
-    searchInput.addEventListener('input', () => {
-        const searchTerm = searchInput.value.toLowerCase();
-        const categories = document.querySelectorAll('.template-category');
-
-        categories.forEach(category => {
-            const templates = category.querySelectorAll('.template-card');
-            let hasVisibleTemplates = false;
-
-            templates.forEach(template => {
-                const templateText = template.textContent.toLowerCase();
-                if (templateText.includes(searchTerm)) {
-                    template.style.display = 'block';
-                    hasVisibleTemplates = true;
-                } else {
-                    template.style.display = 'none';
-                }
-            });
-
-            // Show or hide the category based on whether it has visible templates
-            category.style.display = hasVisibleTemplates ? 'block' : 'none';
-        });
-    });
-}
-
-        function setupPOCSearch() {
-            const searchInput = document.getElementById('pocSearch');
-            searchInput.addEventListener('input', debounce(handlePOCSearch, 300));
-        }
-
-        function handlePOCSearch(e) {
-            const term = e.target.value.toLowerCase();
-            const results = pocList.filter(poc => 
-                `${poc.firstName} ${poc.lastName}`.toLowerCase().includes(term) ||
-                poc.position.toLowerCase().includes(term)
-            );
-
-            const resultsContainer = document.getElementById('pocResults');
-            resultsContainer.innerHTML = '';
-            
-            results.forEach(poc => {
-                const div = document.createElement('div');
-                div.className = 'poc-result';
-                div.innerHTML = `
-                    <strong>${poc.firstName} ${poc.lastName}</strong>
-                    <div>${poc.position} @ ${poc.organization}</div>
-                `;
-                div.addEventListener('click', () => selectPOC(poc));
-                resultsContainer.appendChild(div);
-            });
-
-            resultsContainer.style.display = results.length ? 'block' : 'none';
-        }
-
-        function selectPOC(poc) {
-    selectedPOC = poc;
-    document.getElementById('pocResults').style.display = 'none';
-    document.getElementById('selectedPOC').style.display = 'block';
-
-    const detailsDiv = document.getElementById('pocDetails');
-    detailsDiv.innerHTML = '';
-
-    // Dynamically add only available fields
-    const fields = [
-        { label: 'POC', value: `${poc.firstName} ${poc.lastName} | ${poc.position} | ${poc.organization} | ${poc.address} | ${poc.phone} |  ${poc.email} ` }
-
-    ];
-
-    fields.forEach(field => {
-        if (field.value && field.value !== 'N/A') {
-            const fieldElement = document.createElement('p');
-            fieldElement.innerHTML = `<strong>${field.label}:</strong> ${field.value}`;
-            detailsDiv.appendChild(fieldElement);
-        }
-    });
-}
-
-        function selectTemplate(templateKey) {
-            selectedTemplate = templateKey;
-            document.querySelectorAll('.template-card').forEach(card => 
-                card.classList.remove('active'));
-            event.target.classList.add('active');
-            createFormFields(templateKey);
-        }
+     
 
         function createFormFields(templateKey) {
     const dynamicForm = document.getElementById('dynamicForm');
@@ -247,70 +167,56 @@ function setupTemplateSearch() {
             dynamicForm.appendChild(group);
         });
     }
+    // Initialize autocomplete for address fields
+    const addressFields = ['location', 'fromAddress', 'toAddress'];
+            addressFields.forEach(fieldId => {
+                const input = document.getElementById(fieldId);
+                if (input) {
+                    createAutocomplete(input);
+                }
+         });
 }
 
+function createAutocomplete(inputElement) {
+            const autocomplete = new google.maps.places.Autocomplete(
+                inputElement,
+                {
+                    types: ['address'],
+                    componentRestrictions: { 'country': ['US'] },
+                    fields: ['address_components', 'formatted_address']
+                }
+            );
 
-function updateCopyButtonVisibility() {
-    const outputPreview = document.getElementById('outputPreview');
-    const copyButton = document.querySelector('.copy-btn');
+            autocomplete.addListener('place_changed', () => {
+                const place = autocomplete.getPlace();
+                const formattedAddress = formatAddress(place);
+                if (formattedAddress) {
+                    inputElement.value = formattedAddress;
+                }
+            });
+        }
 
-    // Show the button only if there is text in the outputPreview
-    if (outputPreview.innerHTML.trim()) {
-        copyButton.style.display = 'inline-block';
-    } else {
-        copyButton.style.display = 'none';
-    }
-}
+        function formatAddress(place) {
+            if (!place.address_components) return null;
+            
+            const components = place.address_components;
+            const address = getComponent(components, 'street_number') + ' ' + 
+                          getComponent(components, 'route');
+            const city = getComponent(components, 'locality') || 
+                       getComponent(components, 'sublocality');
+            const state = getComponent(components, 'administrative_area_level_1', 'short_name');
+            const zip = getComponent(components, 'postal_code');
 
-function copyOutput() {
-    const outputPreview = document.getElementById('outputPreview');
-    const tempElement = document.createElement('div');
-    tempElement.innerHTML = outputPreview.innerHTML;
+            return `${address} | ${city}, ${state} ${zip}`;
+        }
 
-    // Extract plain text, including bold text
-    const textToCopy = tempElement.innerText;
-
-    if (textToCopy) {
-        navigator.clipboard.writeText(textToCopy).then(() => {
-            alert('Output copied to clipboard!');
-        }).catch(err => {
-            console.error('Failed to copy text: ', err);
-        });
-    } else {
-        alert('No content to copy!');
-    }
-}
-
-function clearOutput() {
-    const outputPreview = document.getElementById('outputPreview');
-    const copyButton = document.querySelector('.copy-btn');
-    const clearButton = document.querySelector('.clear-btn');
-
-    // Clear the content of outputPreview
-    outputPreview.innerHTML = '';
-
-    // Hide the buttons
-    copyButton.style.display = 'none';
-    clearButton.style.display = 'none';
-}
-
-function updateCopyButtonVisibility() {
-    const outputPreview = document.getElementById('outputPreview');
-    const copyButton = document.querySelector('.copy-btn');
-    const clearButton = document.querySelector('.clear-btn');
-
-    // Show the buttons only if there is text in the outputPreview
-    if (outputPreview.innerHTML.trim()) {
-        copyButton.style.display = 'inline-block';
-        clearButton.style.display = 'inline-block';
-    } else {
-        copyButton.style.display = 'none';
-        clearButton.style.display = 'none';
-    }
-}
+        function getComponent(components, type, nameType = 'long_name') {
+            const component = components.find(c => c.types.includes(type));
+            return component ? component[nameType] : '';
+        }
 
 
-function generateRA() {
+        function generateRA() {
     if (!selectedTemplate || !selectedPOC) {
         alert('Please select a template and POC first!');
         return;
@@ -356,30 +262,10 @@ function generateRA() {
     updateCopyButtonVisibility();
 }
 
-
-
-        // Helper functions remain the same
-        function debounce(func, wait) {
-            let timeout;
-            return function(...args) {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), wait);
-            };
-        }
-
-        function getPlaceholders(template) {
-            return [...new Set(template.match(/\[(.*?)\]/g).map(p => p.slice(1, -1)))];
-        }
-
-        function formatLabel(text) {
-            return text.replace(/([A-Z])/g, ' $1').replace(/\b\w/g, l => l.toUpperCase());
-        }
-
-        function formatTemplateName(key) {
-            return key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-        }
-
         window.addEventListener('DOMContentLoaded', initApp);
     </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaklQ25brP4vxErpP1MT-4OAeZBsqqODE&libraries=places&callback=initAutocomplete" async defer>
+</script> 
 </body>
 </html>
