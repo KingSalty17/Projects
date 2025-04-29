@@ -6,6 +6,9 @@
     <title>RA Scheduler Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+
+
+
 </head>
 
 <body>
@@ -60,6 +63,7 @@
             setupPOCSearch();
             setupTemplateSearch();
             initAutocomplete(); 
+        
         }
 
         function populateTemplates() {
@@ -139,8 +143,7 @@
     });
 }
 
-     
-
+    
         function createFormFields(templateKey) {
     const dynamicForm = document.getElementById('dynamicForm');
     dynamicForm.innerHTML = '';
@@ -148,6 +151,19 @@
     // Remove the hardcoded templateConfigs object and use the external one
     if (templateConfigs[templateKey]) {
         dynamicForm.innerHTML = templateConfigs[templateKey];
+
+        if (templateKey === 'haCleanout') {
+            const addAddressButton = document.getElementById('add-address-btn');
+            if (addAddressButton) {
+                addAddressButton.addEventListener('click', function () {
+                    const hiddenAddresses = document.querySelectorAll('.address-row[style*="display: none"]');
+                    if (hiddenAddresses.length > 0) {
+                        hiddenAddresses[0].style.display = 'flex'; // Ensure this matches your CSS layout (flex/block)
+                    }
+                });
+            }
+        }
+
     } else {
         // Keep the existing fallback logic
         const placeholders = getPlaceholders(templates[templateKey]);
@@ -217,49 +233,106 @@ function createAutocomplete(inputElement) {
 
 
         function generateRA() {
-    if (!selectedTemplate || !selectedPOC) {
-        alert('Please select a template and POC first!');
-        return;
-    }
-
-    let content = templates[selectedTemplate];
-    const placeholders = getPlaceholders(content);
-
-    placeholders.forEach(placeholder => {
-        let value = '';
-
-        // Check if the placeholder should come from the form input
-        const input = document.getElementById(placeholder);
-        if (input) {
-            value = input.value; // Prioritize form input values
-        } else if (selectedPOC[placeholder]) {
-            // Use POC values only if no form input exists for the placeholder
-            value = selectedPOC[placeholder];
+    try {
+        if (!selectedTemplate) {
+            alert('Please select a template first!');
+            return;
         }
 
-        // Special handling for time field
-        if (placeholder === 'time' && !value) {
-            value = '9:00 am';
+        const privateSectorTemplates = ['privateRelocation', 'chamberRelocation'];
+        const isPrivateSectorTemplate = privateSectorTemplates.includes(selectedTemplate);
+
+        if (!isPrivateSectorTemplate && !selectedPOC) {
+            alert('Please select a POC first!');
+            return;
         }
 
-        // Clean replacement with fallback
-        if (value) {
+        let content = templates[selectedTemplate];
+        const placeholders = getPlaceholders(content);
+
+        // Special handling for HABC Cleanout
+        if (selectedTemplate === 'haCleanout') {
+            // Get complex name
+            const complexSelect = document.getElementById('complex');
+            const complexValue = complexSelect ? complexSelect.options[complexSelect.selectedIndex].text : '';
+            content = content.replaceAll('[complex]', complexValue);
+
+            // Process address fields
+            const addressEntries = [];
+            document.querySelectorAll('.address-row:not([style*="display: none"])').forEach((row, index) => {
+                const addressInput = row.querySelector('.address');
+                const detailsInput = row.querySelector('.br-details');
+                
+                const address = addressInput ? addressInput.value.trim() : '';
+                const details = detailsInput ? detailsInput.value.trim() : '';
+                
+                if (address || details) {
+                    addressEntries.push(`(${addressEntries.length + 1}) ${address} | ${details}`);
+                }
+            });
+
+            // Replace address block
+            const addressBlock = addressEntries.join('\n');
+            const cleanoutText = `Please clean out the following units at ${complexValue}:\n${addressBlock}`;
+            content = content.replace(
+                /Please clean out the following units at \[complex\]:[\s\S]*?NOTE:/,
+                `${cleanoutText}\nNOTE:`
+            );
+
+            // Handle special instructions
+            const notesInput = document.getElementById('specialInstructions');
+            const notes = notesInput ? notesInput.value.trim() : '';
+            content = content.replace('[specialInstructions]', notes || 'No special instructions');
+        }
+
+        // Process other placeholders
+        placeholders.forEach(placeholder => {
+            let value = '';
+            const input = document.getElementById(placeholder);
+
+            if (placeholder === 'date') {
+                value = input?.value ? formatDate(input.value) : '';
+            } 
+            else if (placeholder.startsWith('poc')) {
+                if (!isPrivateSectorTemplate && selectedPOC) {
+                    const field = placeholder.slice(3).toLowerCase();
+                    value = selectedPOC[field] || '';
+                }
+            }
+            else if (input) {
+                value = input.value.trim();
+            }
+
+            if (placeholder === 'time' && !value) value = '9:00 am';
             content = content.replaceAll(`[${placeholder}]`, value);
-        } else {
-            content = content.replaceAll(`[${placeholder}]`, '');
-        }
-    });
+        });
 
-    // Additional cleanup
-    content = content.replace(/\s*\|\s*\|\s*/g, ' | ')
-                     .replace(/\s*\|\s*$/g, '')
-                     .replace(/^\s*\|\s*/g, '')
-                     .replace(/\s*\|\s*(?=\|)/g, '');
+        // Cleanup formatting
+        content = content.replace(/\s*\|\s*\|\s*/g, ' | ')
+                        .replace(/^\s*\|\s*/gm, '')
+                        .replace(/\s*\|\s*$/gm, '')
+                        .replace(/(\n\s*){2,}/g, '\n');
 
-    document.getElementById('outputPreview').innerHTML = content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        document.getElementById('outputPreview').innerHTML = content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        updateCopyButtonVisibility();
 
-    // Show the copy and clear buttons
-    updateCopyButtonVisibility();
+    } catch (error) {
+        console.error('RA Generation Error:', error);
+        alert('Error generating RA. Check console for details.');
+    }
+}
+
+        
+// Function to format the date as MM-DD-YY
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    if (!isNaN(date)) {
+        const month = date.getMonth() + 1;
+        const day = String(date.getDate()).padStart(2, '0');
+        const year = String(date.getFullYear()).slice(-2);
+        return `${month}-${day}-${year}`;
+    }
+    return dateString; // Return the original value if invalid
 }
 
         window.addEventListener('DOMContentLoaded', initApp);
