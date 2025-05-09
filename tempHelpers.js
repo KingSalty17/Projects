@@ -30,12 +30,25 @@ function setupTemplateSearch() {
 
 function selectTemplate(templateKey) {
     selectedTemplate = templateKey;
-    document.querySelectorAll('.template-card').forEach(card => 
-        card.classList.remove('active'));
-    event.target.classList.add('active');
+
+    // Check if the selected template is part of the Private Sector Templates
+    const privateSectorTemplates = ['privateRelocation', 'chamberRelocation'];
+    const pocSearchContainer = document.querySelector('.poc-search-container');
+    const selectedPOCContainer = document.getElementById('selectedPOC');
+
+    if (privateSectorTemplates.includes(templateKey)) {
+        // Hide POC search bar and selected POC details
+        pocSearchContainer.style.display = 'none';
+        selectedPOCContainer.style.display = 'none';
+        selectedPOC = null; // Clear any previously selected POC
+    } else {
+        // Show POC search bar for other templates
+        pocSearchContainer.style.display = 'block';
+    }
+
+    // Generate the form fields for the selected template
     createFormFields(templateKey);
 }
-
 function updateCopyButtonVisibility() {
     const outputPreview = document.getElementById('outputPreview');
     const copyButton = document.querySelector('.copy-btn');
