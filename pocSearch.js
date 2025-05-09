@@ -1,4 +1,3 @@
-
 let selectedPOC = null;
 
 
@@ -32,24 +31,34 @@ function handlePOCSearch(e) {
 }
 
 function selectPOC(poc) {
-selectedPOC = poc;
-document.getElementById('pocResults').style.display = 'none';
-document.getElementById('selectedPOC').style.display = 'block';
+    selectedPOC = poc;
+    document.getElementById('pocResults').style.display = 'none';
+    document.getElementById('selectedPOC').style.display = 'block';
 
-const detailsDiv = document.getElementById('pocDetails');
-detailsDiv.innerHTML = '';
+    const detailsDiv = document.getElementById('pocDetails');
+    detailsDiv.innerHTML = '';
 
-// Dynamically add only available fields
-const fields = [
-{ label: 'POC', value: `${poc.firstName} ${poc.lastName} | ${poc.position} | ${poc.organization} | ${poc.address} | ${poc.phone} |  ${poc.email} ` }
+    // Dynamically construct the value string by including only non-empty fields
+    const pocDetails = [
+        poc.firstName && poc.lastName ? `${poc.firstName} ${poc.lastName}` : '',
+        poc.position || '',
+        poc.organization || '',
+        poc.address || '',
+        poc.phone || '',
+        poc.cell || '', // Added cell for consistency
+        poc.fax || '',  // Added fax for consistency
+        poc.email || ''
+    ].filter(detail => detail.trim()).join(' | ');
 
-];
+    const fields = [
+        { label: 'POC', value: pocDetails }
+    ];
 
-fields.forEach(field => {
-if (field.value && field.value !== 'N/A') {
-    const fieldElement = document.createElement('p');
-    fieldElement.innerHTML = `<strong>${field.label}:</strong> ${field.value}`;
-    detailsDiv.appendChild(fieldElement);
-}
-});
+    fields.forEach(field => {
+        if (field.value && field.value.trim()) {
+            const fieldElement = document.createElement('p');
+            fieldElement.innerHTML = `<strong>${field.label}:</strong> ${field.value}`;
+            detailsDiv.appendChild(fieldElement);
+        }
+    });
 }
