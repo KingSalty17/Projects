@@ -6,7 +6,7 @@
     <title>RA Scheduler Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-
+    <link rel="icon" href="ralogo.png" />
 
 
 </head>
@@ -29,6 +29,7 @@
             
             <div class="selected-poc-card" id="selectedPOC" style="display: none;">
                 <div id="pocDetails"></div>
+                <span class="close-btn" onclick="deselectPOC()">×</span>
             </div>
 
             <div id="dynamicForm"></div>
@@ -144,27 +145,53 @@
 }
 
     
-        function createFormFields(templateKey) {
+function createFormFields(templateKey) {
     const dynamicForm = document.getElementById('dynamicForm');
     dynamicForm.innerHTML = '';
 
-    // Remove the hardcoded templateConfigs object and use the external one
     if (templateConfigs[templateKey]) {
         dynamicForm.innerHTML = templateConfigs[templateKey];
 
+        // Apply autocomplete to the location field
+        const locationField = document.getElementById('location');
+        if (locationField) {
+            createAutocomplete(locationField);
+        }
+
+        // Handle dynamic address rows for haCleanout
         if (templateKey === 'haCleanout') {
             const addAddressButton = document.getElementById('add-address-btn');
             if (addAddressButton) {
                 addAddressButton.addEventListener('click', function () {
                     const hiddenAddresses = document.querySelectorAll('.address-row[style*="display: none"]');
                     if (hiddenAddresses.length > 0) {
-                        hiddenAddresses[0].style.display = 'flex'; // Ensure this matches your CSS layout (flex/block)
+                        hiddenAddresses[0].style.display = 'flex';
+                        const addressInput = hiddenAddresses[0].querySelector('.address');
+                        if (addressInput) {
+                            createAutocomplete(addressInput);
+                        }
+
+                        // Add remove button to the address row
+                        const removeAddressButton = document.createElement('button');
+                        removeAddressButton.textContent = 'Remove';
+                        removeAddressButton.className = 'remove-address-btn';
+                        removeAddressButton.addEventListener('click', function () {
+                            hiddenAddresses[0].style.display = 'none';
+                            hiddenAddresses[0].querySelectorAll('input').forEach(input => input.value = '');
+                        });
+                        hiddenAddresses[0].appendChild(removeAddressButton);
                     }
                 });
             }
-        }
 
-    } else {
+            // Apply autocomplete to all visible address fields
+            const addressFields = document.querySelectorAll('.address-row .address');
+            addressFields.forEach((field) => {
+                createAutocomplete(field);
+            });
+        }
+    }
+        else {
         // Keep the existing fallback logic
         const placeholders = getPlaceholders(templates[templateKey]);
         placeholders.forEach(placeholder => {
@@ -233,95 +260,81 @@ function createAutocomplete(inputElement) {
 
 
         function generateRA() {
-    try {
-        if (!selectedTemplate) {
-            alert('Please select a template first!');
-            return;
-        }
+    if (!selectedTemplate) {
+        alert('Please select a template first!');
+        return;
+    }
 
-        const privateSectorTemplates = ['privateRelocation', 'chamberRelocation'];
-        const isPrivateSectorTemplate = privateSectorTemplates.includes(selectedTemplate);
+    let content = templates[selectedTemplate];
+    const placeholders = getPlaceholders(content);
 
-        if (!isPrivateSectorTemplate && !selectedPOC) {
-            alert('Please select a POC first!');
-            return;
-        }
+    placeholders.forEach(placeholder => {
+        let value = '';
 
-        let content = templates[selectedTemplate];
-        const placeholders = getPlaceholders(content);
-
-        // Special handling for HABC Cleanout
-        if (selectedTemplate === 'haCleanout') {
-            // Get complex name
-            const complexSelect = document.getElementById('complex');
-            const complexValue = complexSelect ? complexSelect.options[complexSelect.selectedIndex].text : '';
-            content = content.replaceAll('[complex]', complexValue);
-
-            // Process address fields
-            const addressEntries = [];
-            document.querySelectorAll('.address-row:not([style*="display: none"])').forEach((row, index) => {
-                const addressInput = row.querySelector('.address');
-                const detailsInput = row.querySelector('.br-details');
-                
-                const address = addressInput ? addressInput.value.trim() : '';
-                const details = detailsInput ? detailsInput.value.trim() : '';
-                
-                if (address || details) {
-                    addressEntries.push(`(${addressEntries.length + 1}) ${address} | ${details}`);
-                }
-            });
-
-            // Replace address block
-            const addressBlock = addressEntries.join('\n');
-            const cleanoutText = `Please clean out the following units at ${complexValue}:\n${addressBlock}`;
-            content = content.replace(
-                /Please clean out the following units at \[complex\]:[\s\S]*?NOTE:/,
-                `${cleanoutText}\nNOTE:`
-            );
-
-            // Handle special instructions
-            const notesInput = document.getElementById('specialInstructions');
-            const notes = notesInput ? notesInput.value.trim() : '';
-            content = content.replace('[specialInstructions]', notes || 'No special instructions');
-        }
-
-        // Process other placeholders
-        placeholders.forEach(placeholder => {
-            let value = '';
+        if (placeholder === 'date') {
             const input = document.getElementById(placeholder);
-
-            if (placeholder === 'date') {
-                value = input?.value ? formatDate(input.value) : '';
-            } 
-            else if (placeholder.startsWith('poc')) {
-                if (!isPrivateSectorTemplate && selectedPOC) {
-                    const field = placeholder.slice(3).toLowerCase();
+            if (input && input.value) {
+                value = formatDate(input.value); // Format the date as MM-DD-YY
+            }
+        } else if (placeholder === 'time') {
+            const input = document.getElementById(placeholder);
+            value = input ? input.value : '9:00 am'; // Default to 9:00 am if not provided
+        } else if (placeholder.startsWith('address') || placeholder.startsWith('unitDetails')) {
+            // Handle dynamic addresses for haCleanout
+            if (selectedTemplate === 'haCleanout') {
+                const addressIndex = placeholder.match(/\d+/)?.[0]; // Extract the number from placeholder
+                if (addressIndex) {
+                    const addressInput = document.querySelector(`#address${addressIndex} .address`);
+                    const unitDetailsInput = document.querySelector(`#address${addressIndex} .br-details`);
+                    if (placeholder.startsWith('address')) {
+                        value = addressInput ? addressInput.value : '';
+                    } else if (placeholder.startsWith('unitDetails')) {
+                        value = unitDetailsInput ? unitDetailsInput.value : '';
+                    }
+                }
+            }
+        } else if (placeholder.startsWith('poc')) {
+            // Handle POC placeholders
+            if (selectedPOC) {
+                const field = placeholder.replace('poc', '').toLowerCase();
+                if (field === 'firstname') {
+                    value = selectedPOC.firstName || '';
+                } else if (field === 'lastname') {
+                    value = selectedPOC.lastName || '';
+                } else {
                     value = selectedPOC[field] || '';
                 }
             }
-            else if (input) {
-                value = input.value.trim();
+        } else {
+            // Default to form input
+            const input = document.getElementById(placeholder);
+            if (input && input.value.trim()) {
+                value = input.value; // Use form input only if it has a value
             }
+        }
 
-            if (placeholder === 'time' && !value) value = '9:00 am';
+        // Clean replacement with fallback
+        if (value) {
             content = content.replaceAll(`[${placeholder}]`, value);
-        });
+        } else {
+            content = content.replaceAll(`[${placeholder}]`, '');
+        }
+    });
 
-        // Cleanup formatting
-        content = content.replace(/\s*\|\s*\|\s*/g, ' | ')
-                        .replace(/^\s*\|\s*/gm, '')
-                        .replace(/\s*\|\s*$/gm, '')
-                        .replace(/(\n\s*){2,}/g, '\n');
+    // Additional cleanup
+    content = content.replace(/\s*\|\s*\|\s*/g, ' | ')
+                     .replace(/\s*\|\s*$/g, '')
+                     .replace(/^\s*\|\s*/g, '')
+                     .replace(/\s*\|\s*(?=\|)/g, '')
+                     .replace(/\(\d+\)\s+\|[\s|]*\n/g, '') 
+                     .replace(/\|\s+\|/g, '') // Cleanup empty pipes
+                     .replace(/\n{3,}/g, '\n\n');
 
-        document.getElementById('outputPreview').innerHTML = content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-        updateCopyButtonVisibility();
+    document.getElementById('outputPreview').innerHTML = content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
 
-    } catch (error) {
-        console.error('RA Generation Error:', error);
-        alert('Error generating RA. Check console for details.');
-    }
+    // Show the copy and clear buttons
+    updateCopyButtonVisibility();
 }
-
         
 // Function to format the date as MM-DD-YY
 function formatDate(dateString) {
@@ -333,6 +346,12 @@ function formatDate(dateString) {
         return `${month}-${day}-${year}`;
     }
     return dateString; // Return the original value if invalid
+}
+
+function deselectPOC() {
+    const selectedPOC = document.getElementById('selectedPOC');
+    selectedPOC.style.display = 'none';
+    selectedPOC.innerHTML = '';
 }
 
         window.addEventListener('DOMContentLoaded', initApp);
