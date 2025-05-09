@@ -138,8 +138,15 @@ const templateConfigs = {
         <label>COMPLEX:</label>
         <select id="complex">
             <option value="Cherry Hill Homes">Cherry Hill Homes</option>
+            <option value="Scattered Sites">Scattered Sites</option>
             <option value="Gilmor Homes">Gilmor Homes</option>
             <option value="Perkins Homes">Perkins Homes</option>
+            <option value="Poe Homes">Poe Homes</option>
+            <option value="McCulloh Homes">McCulloh Homes</option>
+            <option value="O'Donnell Homes">O'Donnell Heights</option>
+            <option value="Brookyln Homes">Brookyln Homes</option>
+            <option value="Dukeland Homes">Dukeland Homes</option>
+
         </select>
     </div>
     <div id="address-container">
@@ -150,7 +157,14 @@ const templateConfigs = {
             </div>
             <div class="input-group">
                 <label>BR DETAILS:</label>
-                <input type="text" class="br-details" placeholder="Enter BR details (e.g., 3-br unit)">
+                <select class="br-details" placeholder="Enter BR details (e.g., 3-br unit)"id="unitDetails">
+                    <option value="1-br unit">1-br Unit</option>
+                    <option value="2-br unit">2-br Unit</option>
+                    <option value="3-br unit">3-br Unit</option>
+                    <option value="4-br unit">4-br Unit</option>
+                    <option value="5-br unit">5-br Unit</option>
+                    <option value="No info"></option>
+                </select>
             </div>
         </div>
         <div class="date-time-row address-row" id="address2" style="display: none;">
@@ -160,7 +174,14 @@ const templateConfigs = {
             </div>
             <div class="input-group">
                 <label>BR DETAILS:</label>
-                <input type="text" class="br-details" placeholder="Enter BR details (e.g., 3-br unit)">
+                <select class="br-details" placeholder="Enter BR details (e.g., 3-br unit)"id="unitDetails">
+                    <option value="1-br unit">1-br Unit</option>
+                    <option value="2-br unit">2-br Unit</option>
+                    <option value="3-br unit">3-br Unit</option>
+                    <option value="4-br unit">4-br Unit</option>
+                    <option value="5-br unit">5-br Unit</option>
+                    <option value="No info"></option>
+                </select>
             </div>
         </div>
         <!-- Repeat for address3 to address20 -->
@@ -168,11 +189,18 @@ const templateConfigs = {
         <div class="date-time-row address-row" id="address${i + 3}" style="display: none;">
             <div class="input-group">
                 <label>ADDRESS (${i + 3}):</label>
-                <input type="text" class="address" placeholder="Enter address">
+                <input class="address" type="text" id="location" placeholder="Enter address">
             </div>
             <div class="input-group">
                 <label>BR DETAILS:</label>
-                <input type="text" class="br-details" placeholder="Enter BR details (e.g., 3-br unit)">
+                <select class="br-details" placeholder="Enter BR details (e.g., 3-br unit)"id="unitDetails">
+                    <option value="1-br unit">1-br Unit</option>
+                    <option value="2-br unit">2-br Unit</option>
+                    <option value="3-br unit">3-br Unit</option>
+                    <option value="4-br unit">4-br Unit</option>
+                    <option value="5-br unit">5-br Unit</option>
+                    <option value="No info"></option>
+                </select>
             </div>
         </div>`).join('')}
     </div>
@@ -546,7 +574,6 @@ const templateConfigs = {
         </div>
     `
 };
-
 
 document.addEventListener('DOMContentLoaded', function () {
     const addAddressButton = document.getElementById('add-address-btn');
