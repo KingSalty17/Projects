@@ -102,12 +102,12 @@ const templateConfigs = {
         </div>
         <label><strong>CLIENT:</strong></label>
         <div class="client-row">
-            <input type="text" id="clientName" placeholder="Name">
+            <input type="text" id="name" placeholder="Name">
             <span class="pipe">|</span>
-            <input type="text" id="clientPhone" placeholder="Phone">
+            <input type="text" id="phone" placeholder="Phone">
         </div>
         <div class="input-group">
-            <label>FROM:</label>
+            <label>FROM:</label> 
             <input type="text" id="fromAddress" class="full-width" placeholder="Source location">
         </div>
         <div class="input-group">
@@ -295,9 +295,9 @@ const templateConfigs = {
         </div>
         <label><strong>CLIENT:</strong></label>
         <div class="client-row">
-            <input type="text" id="clientName" placeholder="Name">
+            <input type="text" id="name"  placeholder="Name">
             <span class="pipe">|</span>
-            <input type="text" id="clientPhone" placeholder="Phone">
+            <input type="text" id="phone" placeholder="Phone">
         </div>
         <div class="input-group">
             <label>DELIVERY ADDRESS:</label>
@@ -385,9 +385,9 @@ const templateConfigs = {
         </div>
         <label><strong>CLIENT:</strong></label>
         <div class="client-row">
-            <input type="text" id="clientName" placeholder="Name">
+            <input type="text" id="name" placeholder="Name">
             <span class="pipe">|</span>
-            <input type="text" id="clientPhone" placeholder="Phone">
+            <input type="text" id="phone" placeholder="Phone">
         </div>
         <div class="input-group">
             <label>FROM:</label>
