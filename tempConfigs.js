@@ -229,14 +229,10 @@ const templateConfigs = {
         <div class="input-group">
             <label>EVICTION ADDRESS:</label>
             <input type="text" id="location" class="full-width" placeholder="Eviction address">
-        </div>
+        </div>        
         <div class="input-group">
-            <label>UNIT DETAILS:</label>
-            <input type="text" id="unitDetails" class="full-width" placeholder="Unit information">
-        </div>
-        <div class="input-group">
-            <label>SPECIAL INSTRUCTIONS:</label>
-            <textarea id="specialInstructions" placeholder="Additional details"></textarea>
+            <label>NOTE:</label>
+            <textarea id="specialInstructions" placeholder="Additional details">Please stay until all trash is bagged and removed before leaving the site.</textarea>
         </div>
     `,
 
