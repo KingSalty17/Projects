@@ -320,6 +320,17 @@ function createAutocomplete(inputElement) {
             content = content.replaceAll(`[${placeholder}]`, '');
         }
     });
+            // --- CLEANOUT-SPECIFIC CLEANUP ---
+    if (selectedTemplate === 'haCleanout') {
+        // Remove lines like: (2)  | 1-br unit
+        content = content.replace(/^\(\d+\)\s*\|\s*1-br unit\s*$/gm, '');
+        // Remove lines like: (2)  | 
+        content = content.replace(/^\(\d+\)\s*\|\s*$/gm, '');
+        // Remove lines like: (2)  $ (just the number)
+        content = content.replace(/^\(\d+\)\s*$/gm, '');
+        // Remove extra blank lines
+        content = content.replace(/\n{3,}/g, '\n\n');
+    }
 
     // Additional cleanup
     content = content.replace(/\s*\|\s*\|\s*/g, ' | ')
