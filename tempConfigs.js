@@ -300,10 +300,10 @@ const templateConfigs = {
 </div>
         </div>
         <div class="input-group">
-            <label>NUMBER OF BOXES:</label>
-            <input type="text" id="number" placeholder="Quantity">
+            <label>Delivery Items</label>
+            <input type="text" id="number" placeholder="boxes, tapes, etc.">
         </div>
-        <label><strong>CLIENT:</strong></label>
+        <label><strong>RESIDENT:</strong></label>
         <div class="client-row">
             <input type="text" id="name"  placeholder="Name">
             <span class="pipe">|</span>
