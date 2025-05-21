@@ -236,7 +236,7 @@ const templateConfigs = {
  <input type="date" id="date" placeholder="Enter date">    </div>
     <div class="input-group">
         <label>TIME:</label>
-        <input type="time" id="time" value="9:00 am">
+        <input type="text" id="time" value="9:00 am">
     </div>
 </div>
         </div>
