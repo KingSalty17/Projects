@@ -215,14 +215,28 @@ const templateConfigs = {
 
     haEviction: `
         <div class="form-header-row">
-            <h2 class="header-title">HABC – Eviction</h2>
+            <h2 class="header-title">Eviction – <span id="complex-label">[Complex]</span></h2>
+        <div class="input-group">
+            <label for="complex">COMPLEX:</label>
+            <select id="complex" class="full-width">
+                <option value="Cherry Hill Homes">Cherry Hill Homes</option>
+                <option value="Scattered Sites">Scattered Sites</option>
+                <option value="Gilmor Homes">Gilmor Homes</option>
+                <option value="Perkins Homes">Perkins Homes</option>
+                <option value="Poe Homes">Poe Homes</option>
+                <option value="McCulloh Homes">McCulloh Homes</option>
+                <option value="O'Donnell Heights">O'Donnell Heights</option>
+                <option value="Brookyln Homes">Brookyln Homes</option>
+                <option value="Dukeland Homes">Dukeland Homes</option>
+            </select>
+        </div>
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
  <input type="date" id="date" placeholder="Enter date">    </div>
     <div class="input-group">
         <label>TIME:</label>
-        <input type="text" id="time" value="9:00 am">
+        <input type="time" id="time" value="9:00 am">
     </div>
 </div>
         </div>
