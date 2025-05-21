@@ -16,7 +16,7 @@ const templates = {
     
     haRelocation: `**HABC – Relocation**     **DATE:** [date]     **TIME:** [time]\n**RESIDENT:** [name] | [phone]\n**FROM:** [fromAddress]\n**TO:** [toAddress]\n**REMEMBER:** [specialInstructions]\n**POC: [pocFirstName] [pocLastName] | [pocPosition] | [pocOrganization] | [pocAddress] | [pocPhone] | [pocCell] | [pocEmail]**`,
     
-    haBoxDelivery: `**HABC - Box Delivery**     **DATE:** [date]     **TIME:** [time]\n**Please deliver [number] boxes to:**\n**RESIDENT:** [name] | [phone]\n[location]\n**POC: [pocFirstName] [pocLastName] | [pocPosition] | [pocOrganization] | [pocAddress] | [pocPhone] | [pocCell] | [pocEmail]**`,
+    haBoxDelivery: `**HABC - Box Delivery**     **DATE:** [date]     **TIME:** [time]\n**Please deliver [number] to:**\n**RESIDENT:** [name] | [phone]\n[location]\n**POC: [pocFirstName] [pocLastName] | [pocPosition] | [pocOrganization] | [pocAddress] | [pocPhone] | [pocCell] | [pocEmail]**`,
     
     haTruckUnload: `**HABC - Trucks Unloaded**     **DATE:** [date]     **TIME:** [time]\n**LOCATION:** [location]\n**SERVICE REQUESTED:** [description]\n**EQUIPMENT:** [needs]\n**POC: [pocFirstName] [pocLastName] | [pocPosition] | [pocOrganization] | [pocAddress] | [pocPhone] | [pocCell] | [pocEmail]**`,
 
