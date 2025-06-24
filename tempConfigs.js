@@ -139,6 +139,7 @@ const templateConfigs = {
         <select id="complex">
                 <option value="Cherry Hill Homes">Cherry Hill Homes</option>
                 <option value="Westport/Mt Winans">Westport/Mt Winans</option>
+		<option value="Douglass Homes">Douglass Homes</option>
                 <option value="Scattered Sites">Scattered Sites</option>
                 <option value="Gilmor Homes">Gilmor Homes</option>
                 <option value="Perkins Homes">Perkins Homes</option>
@@ -221,6 +222,7 @@ const templateConfigs = {
             <select id="complex" class="full-width">
                 <option value="Cherry Hill Homes">Cherry Hill Homes</option>
                 <option value="Westport/Mt Winans">Westport/Mt Winans</option>
+		<option value="Douglass Homes">Douglass Homes</option>
                 <option value="Scattered Sites">Scattered Sites</option>
                 <option value="Gilmor Homes">Gilmor Homes</option>
                 <option value="Perkins Homes">Perkins Homes</option>
