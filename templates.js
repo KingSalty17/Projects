@@ -24,10 +24,8 @@ const templates = {
     agingRelocation: `**Dept of Aging & Disabilities - Relocation Services**     **DATE:** [date]     **TIME:** [time]\n**RESIDENT:** [name] | Home: [phone] | Mobile: [cell]\n**LOCATION:** [location]\n**REQUIREMENT:** [description]\n**POC: [pocFirstName] [pocLastName] | [pocPosition] | [pocOrganization] | [pocAddress] | [pocPhone] | [pocCell] | [pocEmail]**\n**PRICE:** [amount]`,
 
     // Private Sector Templates
-    privateRelocation: `**[Company] - Relocation of Furniture**     **DATE:** [date]     **TIME:** [time]\n**CLIENT:** [clientName] | [clientPhone]\n**FROM:** [fromAddress]\n**TO:** [toAddress]\n**REQUIREMENT:** [itemList]\n**Price:** [amount]`,
+    privateRelocation: `**Private - Relocation**     **DATE:** [date]     **TIME:** [time]\n**CLIENT:** [clientName] | [clientPhone]\n**EMAIL:** [clientEmail]\n**FROM:** [fromAddress]\n**TO:** [toAddress]\n**REQUIREMENT:** [itemList]\n**Price:** [amount]`,
     
-    chamberRelocation: `**Relocation – [Organization]**     **DATE:** [date]     **TIME:** [time]\n**Pick up from:** [fromAddress]\n**Drop off:** [toAddress]\n**REQUIREMENT:** [itemList]`,
-
     // Non-Profit Templates
     grassrootsRelocation: `**[Organization] - Relocation Services**     **DATE:** [date]     **TIME:** [time]\n**PICK UP:** [fromAddress]\n**DROP OFF:** [toAddress]\n**REQUIREMENT:** [description]\n**EQUIPMENT:** [needs]\n**POC: [pocFirstName] [pocLastName] | [pocPosition] | [pocOrganization] | [pocAddress] | [pocPhone] | [pocCell] | [pocEmail]**`,
 
