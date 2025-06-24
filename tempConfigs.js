@@ -121,7 +121,7 @@ const templateConfigs = {
     `,
     // HABC Templates
     haCleanout: `
-    <div class="form-header-row">
+   <div class="form-header-row">
         <h2 class="header-title">Cleanout Details</h2>
         <div class="date-time-row">
             <div class="input-group">
@@ -138,16 +138,19 @@ const templateConfigs = {
         <label>COMPLEX:</label>
         <select id="complex">
                 <option value="Cherry Hill Homes">Cherry Hill Homes</option>
-                <option value="Westport/Mt Winans">Westport/Mt Winans</option>
-		<option value="Douglass Homes">Douglass Homes</option>
                 <option value="Scattered Sites">Scattered Sites</option>
                 <option value="Gilmor Homes">Gilmor Homes</option>
                 <option value="Perkins Homes">Perkins Homes</option>
                 <option value="Poe Homes">Poe Homes</option>
                 <option value="McCulloh Homes">McCulloh Homes</option>
-                <option value="O'Donnell Heights">O'Donnell Heights</option>
+                <option value="O'Donnell Homes">O'Donnell Heights</option>
                 <option value="Brookyln Homes">Brookyln Homes</option>
+                <option value="Westport/Mt. Winans">Westport/Mt. Winans</option>
                 <option value="Dukeland Homes">Dukeland Homes</option>
+                <option value="Rosemont Homes">Rosemont Homes</option>
+                <option value="Douglass Homes">Douglass Homes</option>
+                <option value="Labtrobe Homes">Labtrobe Homes</option>
+            <option value="Will Add">Will Add</option>
         </select>
     </div>
     <div id="address-container">
@@ -213,24 +216,25 @@ const templateConfigs = {
         <textarea id="specialInstructions" placeholder="Special instructions">Please stay until all trash is bagged and removed before leaving the site.</textarea>
     </div>
 `,
-
     haEviction: `
         <div class="form-header-row">
             <h2 class="header-title">Eviction – <span id="complex-label">[Complex]</span></h2>
         <div class="input-group">
             <label for="complex">COMPLEX:</label>
             <select id="complex" class="full-width">
-                <option value="Cherry Hill Homes">Cherry Hill Homes</option>
-                <option value="Westport/Mt Winans">Westport/Mt Winans</option>
-		<option value="Douglass Homes">Douglass Homes</option>
                 <option value="Scattered Sites">Scattered Sites</option>
                 <option value="Gilmor Homes">Gilmor Homes</option>
                 <option value="Perkins Homes">Perkins Homes</option>
                 <option value="Poe Homes">Poe Homes</option>
                 <option value="McCulloh Homes">McCulloh Homes</option>
-                <option value="O'Donnell Heights">O'Donnell Heights</option>
+                <option value="O'Donnell Homes">O'Donnell Heights</option>
                 <option value="Brookyln Homes">Brookyln Homes</option>
+                <option value="Westport/Mt. Winans">Westport/Mt. Winans</option>
                 <option value="Dukeland Homes">Dukeland Homes</option>
+                <option value="Rosemont Homes">Rosemont Homes</option>
+                <option value="Douglass Homes">Douglass Homes</option>
+                <option value="Labtrobe Homes">Labtrobe Homes</option>
+            	<option value="Will Add">Will Add</option>
             </select>
         </div>
             <div class="date-time-row">
@@ -269,7 +273,7 @@ const templateConfigs = {
         
         <label><strong>RESIDENT:</strong></label>
         <div class="client-row">
-            <input type="text" id="name" placeholder="Name">
+            <input type="text" id="name" placeholder="cilentName">
             <span class="pipe">|</span>
             <input type="text" id="phone" placeholder="Phone">
         </div>
@@ -398,9 +402,13 @@ const templateConfigs = {
         </div>
         <label><strong>CLIENT:</strong></label>
         <div class="client-row">
-            <input type="text" id="name" placeholder="Name">
+            <input type="text" id="name" placeholder="cilentName">
             <span class="pipe">|</span>
-            <input type="text" id="phone" placeholder="Phone">
+            <input type="text" id="phone" placeholder="cilentPhone">
+        </div>
+	<div class="input-group">
+            <label>EMAIL:</label>
+            <input type="text" id="clientEmail" class="full-width" placeholder="Enter email">
         </div>
         <div class="input-group">
             <label>FROM:</label>
@@ -417,33 +425,6 @@ const templateConfigs = {
         <div class="input-group">
             <label>PRICE:</label>
             <input type="text" id="amount" placeholder="Agreed amount">
-        </div>
-    `,
-
-    chamberRelocation: `
-        <div class="form-header-row">
-            <h2 class="header-title">Chamber Relocation</h2>
-            <div class="date-time-row">
-    <div class="input-group">
-        <label>DATE:</label>
- <input type="date" id="date" placeholder="Enter date">    </div>
-    <div class="input-group">
-        <label>TIME:</label>
-        <input type="text" id="time" value="9:00 am">
-    </div>
-</div>
-        </div>
-        <div class="input-group">
-            <label>PICK UP:</label>
-            <input type="text" id="fromAddress" class="full-width" placeholder="Origin address">
-        </div>
-        <div class="input-group">
-            <label>DROP OFF:</label>
-            <input type="text" id="toAddress" class="full-width" placeholder="Destination address">
-        </div>
-        <div class="input-group">
-            <label>ITEMS:</label>
-            <textarea id="itemList" placeholder="Inventory list"></textarea>
         </div>
     `,
 
