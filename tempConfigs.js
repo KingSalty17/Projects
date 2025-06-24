@@ -402,9 +402,9 @@ const templateConfigs = {
         </div>
         <label><strong>CLIENT:</strong></label>
         <div class="client-row">
-            <input type="text" id="name" placeholder="cilentName">
+            <input type="text" id="clientName" placeholder="Name">
             <span class="pipe">|</span>
-            <input type="text" id="phone" placeholder="cilentPhone">
+            <input type="text" id="clientPhone" placeholder="Phone">
         </div>
 	<div class="input-group">
             <label>EMAIL:</label>
