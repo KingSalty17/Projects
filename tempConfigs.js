@@ -2,7 +2,7 @@ const templateConfigs = {
     // School Templates
     schoolMoving: `
         <div class="form-header-row">
-            <h2 class="header-title">School Moving Services</h2>
+            <h2 class="header-title">School Moving Services Entry</h2>
             <div class="date-time-row">
                 <div class="input-group">
                     <label>DATE:</label>
@@ -22,11 +22,19 @@ const templateConfigs = {
             <label>REQUIREMENT:</label>
             <textarea id="description" placeholder="Description"></textarea>
         </div>
+        <div class="input-group">
+            <label>PERSONNEL:</label>
+            <textarea id="moverDetails" placeholder="Staff requirements"></textarea>
+        </div>
+        <div class="input-group">
+            <label>EQUIPMENT:</label>
+            <textarea id="needs" placeholder="Required tools/vehicles"></textarea>
+        </div>
     `,
 
     schoolPickupDelivery: `
         <div class="form-header-row">
-            <h2 class="header-title">School Pickup & Deliveries</h2>
+            <h2 class="header-title">School Pickup & Deliveries Entry</h2>
             <div class="date-time-row">
                 <div class="input-group">
                 <label>DATE:</label>
@@ -50,12 +58,20 @@ const templateConfigs = {
             <label>REQUIREMENT:</label>
             <textarea id="description" placeholder="Description"></textarea>
         </div>
+        <div class="input-group">
+            <label>PERSONNEL:</label>
+            <textarea id="moverDetails" placeholder="Staff requirements"></textarea>
+        </div>
+        <div class="input-group">
+            <label>EQUIPMENT:</label>
+            <textarea id="needs" placeholder="Required tools/vehicles"></textarea>
+        </div>
     `,
 
     // State's Attorney Templates
     saRelocation: `
         <div class="form-header-row">
-            <h2 class="header-title">BCSAO – Relocation</h2>
+            <h2 class="header-title">BCSAO – Relocation Entry</h2>
            <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
@@ -89,7 +105,7 @@ const templateConfigs = {
 
     saFurnitureRemoval: `
         <div class="form-header-row">
-            <h2 class="header-title">BCSAO – Furniture Removal</h2>
+            <h2 class="header-title">BCSAO – Furniture Removal Entry</h2>
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
@@ -122,7 +138,7 @@ const templateConfigs = {
     // HABC Templates
     haCleanout: `
    <div class="form-header-row">
-        <h2 class="header-title">Cleanout Details</h2>
+        <h2 class="header-title">HABC Cleanout Entry</h2>
         <div class="date-time-row">
             <div class="input-group">
                 <label>DATE:</label>
@@ -218,7 +234,7 @@ const templateConfigs = {
 `,
     haEviction: `
         <div class="form-header-row">
-            <h2 class="header-title">Eviction – <span id="complex-label">[Complex]</span></h2>
+            <h2 class="header-title">HABC Eviction Entry</h2>
         <div class="input-group">
             <label for="complex">COMPLEX:</label>
             <select id="complex" class="full-width">
@@ -259,7 +275,7 @@ const templateConfigs = {
 
     haRelocation: `
         <div class="form-header-row">
-            <h2 class="header-title">HABC – Relocation</h2>
+            <h2 class="header-title">HABC Relocation Entry</h2>
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
@@ -295,7 +311,7 @@ const templateConfigs = {
 
     haBoxDelivery: `
         <div class="form-header-row">
-            <h2 class="header-title">HABC - Box Delivery</h2>
+            <h2 class="header-title">HABC Box Delivery Entry</h2>
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
@@ -324,7 +340,7 @@ const templateConfigs = {
 
     haTruckUnload: `
         <div class="form-header-row">
-            <h2 class="header-title">HABC - Trucks Unloaded</h2>
+            <h2 class="header-title">HABC Truck Unload Entry</h2>
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
@@ -337,22 +353,22 @@ const templateConfigs = {
         </div>
         <div class="input-group">
             <label>WAREHOUSE ADDRESS:</label>
-            <input type="text" id="location" class="full-width" placeholder="Location">
+            <textarea id="location" placeholder="Location">Central Regional Warehouse | 3701 Ducanwood Lane | Baltimore, MD  21213</textarea>
         </div>
         <div class="input-group">
             <label>SERVICE DESCRIPTION:</label>
-            <textarea id="description" placeholder="Service requested"></textarea>
+            <textarea id="description" placeholder="Service requested">R&A Movers needed to unload cabinets from tractor trailer.  Must have at least 8 - 10 movers to complete job.</textarea>
         </div>
         <div class="input-group">
             <label>EQUIPMENT NEEDS:</label>
-            <textarea id="needs" placeholder="Required equipment"></textarea>
+            <textarea id="needs" placeholder="Required equipment">None required</textarea>
         </div>
     `,
 
     // Aging Services Template
     agingRelocation: `
         <div class="form-header-row">
-            <h2 class="header-title">Dept of Aging & Disabilities - Relocation Services</h2>
+            <h2 class="header-title">Dept of Aging & Disabilities - Relocation Services Entry</h2>
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
@@ -389,7 +405,7 @@ const templateConfigs = {
     // Private Sector Templates
     privateRelocation: `
         <div class="form-header-row">
-            <h2 class="header-title">Private Relocation</h2>
+            <h2 class="header-title">Private Relocation Entry</h2>
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
@@ -431,7 +447,7 @@ const templateConfigs = {
     // Non-Profit Templates
     grassrootsRelocation: `
         <div class="form-header-row">
-            <h2 class="header-title">Grassroots Relocation</h2>
+            <h2 class="header-title">Grassroots Relocation Entry</h2>
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
@@ -463,7 +479,7 @@ const templateConfigs = {
     // Housing Commission Template
     hocRelocation: `
         <div class="form-header-row">
-            <h2 class="header-title">HOC – Relocation</h2>
+            <h2 class="header-title">HOC – Relocation Entry</h2>
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
@@ -498,7 +514,7 @@ const templateConfigs = {
     // University Template
     universityRelocation: `
         <div class="form-header-row">
-            <h2 class="header-title">University Relocation</h2>
+            <h2 class="header-title">University Relocation Entry</h2>
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
@@ -535,7 +551,7 @@ const templateConfigs = {
     // Project Management Template
     jacobsRelocation: `
         <div class="form-header-row">
-            <h2 class="header-title">Jacobs Relocation</h2>
+            <h2 class="header-title">Jacobs Relocation Entry</h2>
             <div class="date-time-row">
     <div class="input-group">
         <label>DATE:</label>
